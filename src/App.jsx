@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { searchBox } from './controllers/searchBox';
+import { resultList } from './controllers/resultList';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [, forceUpdate] = useState(0);
+
+  useEffect(() => {
+    const unsub1 = searchBox.subscribe(() => forceUpdate(x => x + 1));
+    const unsub2 = resultList.subscribe(() => forceUpdate(x => x + 1));
+
+    return () => {
+      unsub1();
+      unsub2();
+    };
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{ padding: '2rem' }}>
+      <h1>Coveo Headless Search</h1>
+
+      <input
+        value={searchBox.state.value}
+        onChange={(e) => searchBox.updateText(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && searchBox.submit()}
+        placeholder="Search..."
+      />
+
+      <div style={{ marginTop: '2rem' }}>
+        {resultList.state.results.map(result => (
+          <div key={result.uniqueId}>
+            <h3>{result.title}</h3>
+            <p>{result.excerpt}</p>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
