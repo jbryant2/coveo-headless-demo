@@ -1,3 +1,5 @@
+# Push data to coveo push source
+
 import json
 import requests
 import urllib.parse

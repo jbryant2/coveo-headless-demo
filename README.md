@@ -3,12 +3,11 @@
 A small demo project showcasing a headless search implementation using
 Coveo Headless and React.
 
-This uses data from the Government of Canada Horizontal Initiative Database.
-
 ## Tech Stack
 - React (Vite)
 - Coveo Headless
 - JavaScript
+- Python for pushing data to Coveo
 
 ## Setup
 1. Clone the repo
