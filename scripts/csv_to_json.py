@@ -1,3 +1,5 @@
+# This is used to conver the downloaded example data to json format
+
 import csv
 import json
 
